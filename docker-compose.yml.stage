@@ -1,0 +1,59 @@
+version: '3'
+
+# networks
+networks:
+  # network reverse-proxy
+  reverse-proxy:
+    external:
+      name: reverse-proxy
+  # network internal
+  internal:
+    driver: bridge
+
+# volumes
+volumes:
+
+  # xprototype-mysql_data
+  xprototype-mysql_data:
+    driver: local
+
+# services
+services:
+
+  # xprototype-api
+  xprototype-api:
+    image: webdevops/php-nginx:7.2
+    container_name: xprototype-api
+    working_dir: /var/www/app
+    volumes:
+    - .:/var/www/app
+    - .docker/xprototype-api/opt/docker/etc/nginx/vhost.common.d/10-php.conf:/opt/docker/etc/nginx/vhost.common.d/10-php.conf
+    environment:
+    # - VIRTUAL_HOST=dev.xprototype.com
+    # - LETSENCRYPT_EMAIL=certificate@dev.xprototype.com
+    # - LETSENCRYPT_HOST=dev.xprototype.com
+    - WEB_DOCUMENT_ROOT=/var/www/app/public/
+    - APPLICATION_PATH=/var/www/app
+    - PHP_MAX_EXECUTION_TIME=86400
+    depends_on:
+    - xprototype-mysql
+    links:
+    - xprototype-mysql
+    networks:
+    - reverse-proxy
+    - internal
+
+  # xprototype-mysql
+  xprototype-mysql:
+    image: mysql:v5.7
+    container_name: xprototype-mysql
+    volumes:
+    - .:/var/www/app
+    - xprototype-mysql_data:/var/lib/mysql
+    environment:
+    - MYSQL_ROOT_PASSWORD=root
+    - MYSQL_DATABASE=${DB_DATABASE}
+    - MYSQL_USER=${DB_USERNAME}
+    - MYSQL_PASSWORD=${DB_PASSWORD}
+    networks:
+    - internal

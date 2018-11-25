@@ -1,0 +1,7 @@
+#!/bin/bash
+
+DOCKERIZE_PHP="xprototype-api"
+DOCKERIZE_COMPOSER="xprototype-api"
+DOCKERIZE_ARTISAN="xprototype-api"
+
+DOCKERIZE_BASH="xprototype-api"

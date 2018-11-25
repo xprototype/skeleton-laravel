@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+CONTAINER_TEST_NAME="xprototype-api"
+DOWN=0
+
+if [[ ! $(docker ps -q -f name=${CONTAINER_TEST_NAME}) ]]; then
+  DOWN=1
+  docker-compose up -d &> /dev/null
+fi
+
+docker exec ${CONTAINER_TEST_NAME} php vendor/bin/phpunit --colors=always --verbose --testdox
+
+if [[ ${DOWN} = 1 ]]; then
+  docker-compose down &> /dev/null
+fi

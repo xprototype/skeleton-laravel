@@ -1,0 +1,48 @@
+version: '3'
+
+# volumes
+volumes:
+
+  # xprototype-mysql_data
+  xprototype-mysql_data:
+
+# services
+services:
+
+  # xprototype-api
+  xprototype-api:
+    image: webdevops/php-nginx-dev:7.2
+    container_name: xprototype-api
+    working_dir: /var/www/app
+    volumes:
+    - .:/var/www/app
+    - .docker/xprototype-api/usr/local/etc/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+    - .docker/xprototype-api/opt/docker/etc/nginx/vhost.common.d/10-php.conf:/opt/docker/etc/nginx/vhost.common.d/10-php.conf
+    environment:
+    - WEB_DOCUMENT_ROOT=/var/www/app/public/
+    - APPLICATION_PATH=/var/www/app
+    - PHP_MAX_EXECUTION_TIME=86400
+    - XDEBUG_REMOTE_HOST=${XDEBUG_REMOTE_HOST}
+    depends_on:
+    - xprototype-mysql
+    links:
+    - xprototype-mysql
+    ports:
+    - 18080:80
+    expose:
+    - 9000
+
+  # xprototype-mysql
+  xprototype-mysql:
+    image: mysql:v5.7
+    container_name: xprototype-mysql
+    volumes:
+    - .:/var/www/app
+    - xprototype-mysql_data:/var/lib/mysql
+    environment:
+    - MYSQL_ROOT_PASSWORD=root
+    - MYSQL_DATABASE=${DB_DATABASE}
+    - MYSQL_USER=${DB_USERNAME}
+    - MYSQL_PASSWORD=${DB_PASSWORD}
+    ports:
+    - 13306:3306
