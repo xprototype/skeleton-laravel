@@ -2,13 +2,13 @@
 
 namespace App\Audit;
 
-use App\Domains\Common\Model as Common;
+use App\Domains\Common\Prototype as Common;
 use Illuminate\Database\Eloquent\JsonEncodingException;
 use OwenIt\Auditing\Models\Audit;
 use function App\Helper\is_binary;
 
 /**
- * Class Model
+ * Class Prototype
  * @package App\Audit
  */
 class Model extends Audit

@@ -3,7 +3,7 @@
 namespace App\Domains\Mail;
 
 use App\Domains\Util\Instance;
-use App\Domains\Common\Model;
+use App\Domains\Common\Prototype;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -22,7 +22,7 @@ class MailModel extends Mailable
     use Queueable, SerializesModels, Instance;
 
     /**
-     * @var Model
+     * @var Prototype
      */
     public $data;
 

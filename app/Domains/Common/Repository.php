@@ -17,7 +17,7 @@ abstract class Repository implements RepositoryInterface
     use RepositoryHelper, Instance;
 
     /**
-     * @var Model
+     * @var Prototype
      */
     protected $model;
 
@@ -31,9 +31,9 @@ abstract class Repository implements RepositoryInterface
      *
      * param [ mixed $args [, $... ]]
      * @link http://php.net/manual/en/language.oop5.decon.php
-     * @param ModelInterface $model
+     * @param PrototypeInterface $model
      */
-    public function __construct(ModelInterface $model)
+    public function __construct(PrototypeInterface $model)
     {
         $this->model = $model;
     }

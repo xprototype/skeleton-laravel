@@ -37,7 +37,7 @@ trait RepositoryHelper
 
     /**
      * @param array $filters
-     * @return Model
+     * @return Prototype
      */
     private function where(array $filters)
     {

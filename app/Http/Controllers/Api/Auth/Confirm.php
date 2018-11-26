@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\Auth;
 
 use App\Domains\Admin\User;
 use App\Domains\Admin\User\UserRepository;
-use App\Domains\Common\Model;
+use App\Domains\Common\Prototype;
 use App\Exceptions\ErrorResourceIsGone;
 use App\Exceptions\ErrorValidation;
 use App\Http\Controllers\Api\ApiController;
@@ -56,7 +56,7 @@ class Confirm extends ApiController
     }
 
     /**
-     * @param Model $user
+     * @param Prototype $user
      * @param string $password
      * @param array $details
      * @return JsonResponse

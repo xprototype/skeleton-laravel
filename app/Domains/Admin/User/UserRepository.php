@@ -4,7 +4,7 @@ namespace App\Domains\Admin\User;
 
 use App\Domains\Admin\PasswordReset;
 use App\Domains\Admin\User;
-use App\Domains\Common\Model;
+use App\Domains\Common\Prototype;
 use App\Domains\Common\Repository;
 use Illuminate\Support\Facades\Hash;
 use function App\Helper\uuid;
@@ -26,7 +26,7 @@ class UserRepository extends Repository
 
     /**
      * @param string $email
-     * @return Model|null
+     * @return Prototype|null
      */
     public function findByEmail(string $email)
     {
@@ -35,7 +35,7 @@ class UserRepository extends Repository
 
     /**
      * @param string $code
-     * @return Model|null
+     * @return Prototype|null
      */
     public function findByRememberToken(string $code)
     {
@@ -44,7 +44,7 @@ class UserRepository extends Repository
 
     /**
      * @param string $token
-     * @return Model|null
+     * @return Prototype|null
      */
     public function findByResetToken(string $token)
     {

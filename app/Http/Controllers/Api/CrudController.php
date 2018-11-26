@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Domains\Common\Model;
+use App\Domains\Common\Prototype;
 use App\Domains\Common\RepositoryInterface;;
 use App\Exceptions\ErrorResourceIsGone;
 use Illuminate\Http\JsonResponse;
@@ -143,7 +143,7 @@ abstract class CrudController extends ApiController implements CrudControllerInt
         }
 
         /** @fix */
-        if ($instance->destroy(Model::encodeUuid($id))) {
+        if ($instance->destroy(Prototype::encodeUuid($id))) {
             return $this->answerSuccess($instance);
         }
         return $this->answerFail($instance);
@@ -157,7 +157,7 @@ abstract class CrudController extends ApiController implements CrudControllerInt
     {
         $key = $this->repository->referenceKey();
         return [
-            $key => Model::encodeUuid($id)
+            $key => Prototype::encodeUuid($id)
         ];
     }
 }

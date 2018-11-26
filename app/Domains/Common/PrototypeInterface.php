@@ -3,9 +3,9 @@
 namespace App\Domains\Common;
 
 /**
- * Interface ModelInterface
+ * Interface PrototypeInterface
  * @package App\Domains
  */
-interface ModelInterface
+interface PrototypeInterface
 {
 }

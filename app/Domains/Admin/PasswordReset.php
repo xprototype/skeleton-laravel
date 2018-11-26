@@ -3,7 +3,7 @@
 namespace App\Domains\Admin;
 
 use App\Domains\Admin\PasswordReset\PasswordResetCreated;
-use App\Domains\Common\Model;
+use App\Domains\Common\Prototype;
 use App\Domains\Util\Instance;
 
 /**
@@ -13,7 +13,7 @@ use App\Domains\Util\Instance;
  * @property string reset_link
  * @package App\Domains\Admin
  */
-class PasswordReset extends Model
+class PasswordReset extends Prototype
 {
     /**
      * @trait

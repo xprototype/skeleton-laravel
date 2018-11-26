@@ -5,7 +5,7 @@ namespace App\Domains\Admin;
 use App\Domains\Admin\User\UserCreated;
 use App\Domains\Admin\User\UserCreating;
 use App\Domains\Admin\User\UserUpdating;
-use App\Domains\Common\Model;
+use App\Domains\Common\Prototype;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
@@ -23,46 +23,43 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string activation_link
  * @package App\Domains\Admin
  */
-class User extends Model
+class User extends Prototype
 {
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
+     * @return string
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'firstName',
-        'lastName',
-        'birthday',
-        'gender',
-        // 'password',
-        'photo',
-    ];
+    public function domain(): string
+    {
+        return 'admin.user';
+    }
 
     /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
+     * @return void
      */
-    protected $hidden = [
-        'uuid',
-        'password',
-        'remember_token',
-        'deleted_at',
-    ];
+    public function construct()
+    {
+        $this->event('creating', UserCreating::class);
+        $this->event('created', UserCreated::class);
+        $this->event('updating', UserUpdating::class);
 
-    /**
-     * The event map for the model.
-     *
-     * @var array
-     */
-    protected $dispatchesEvents = [
-        'creating' => UserCreating::class,
-        'created' => UserCreated::class,
-        'updating' => UserUpdating::class,
-    ];
+        $this->field('email', 'Email')->email()->required();
+        $this->field('firstName', 'First Name')->firstName()->required();
+        $this->field('lastName', 'Last Name')->lastName()->required();
+
+        $this->field('name')->calculated(function (Prototype $record) {
+            if ($record->getValue('firstName') && $record->getValue('lastName')) {
+                return "{$record->getValue('firstName')} {$record->getValue('lastName')}";
+            }
+            return null;
+        });
+
+        $this->field('birthday', 'Birthday')->date();
+        $this->field('gender', 'Gender')->option(['m' => 'Male', 'f' => 'Female']);
+        $this->field('password', 'Password')->password();
+        $this->field('photo', 'Photo')->image();
+
+        $this->field('remember_token')->string()->hidden(true);
+    }
 
     /**
      * Get the primary key for the model.
